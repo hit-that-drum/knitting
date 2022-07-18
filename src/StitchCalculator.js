@@ -10,9 +10,7 @@ const NumberInput = styled.input.attrs({
   min: 0,
   max: 500,
   defaultValue: 0
-})`
-  
-`
+})``
 
 const SubmitButton = styled.button`
   width: 85px;
@@ -21,43 +19,105 @@ const SubmitButton = styled.button`
 
 const StitchCalculator = () => {
   const [basictStsNum, setBasicStsNum] = useState(0);
-  const [heelflapStsNum, setHeelflapStsNum] = useState(0);
   const [cuffRowsNum, setCuffRowsNum] = useState(0);
   const [legRowsNum, setLegRowsNum] = useState(0);
+  const [heelflapStsNum, setHeelflapStsNum] = useState(0);
   const [heelflapRowsNum, setHeelflapRowsNum] = useState(0);
+  const [gussetPartStsNum, setGussetPartStsNum] = useState(0);
+  const [footRowsNum, setFootRowsNum] = useState(0);
+  const [toePartStsNum, setToePartStsNum] = useState(0);
   const [totalStsResult, setTotalStsResult] = useState(0);
 
   const onBasicStsNumChange = (e) => {
-    setBasicStsNum(e.target.value);
+    setBasicStsNum(Number(e.target.value));
   }
 
   const onCuffRowsNumChange = (e) => {
-    setCuffRowsNum(e.target.value);
+    setCuffRowsNum(Number(e.target.value));
   }
 
   const onLegRowsNumChange = (e) => {
-    setLegRowsNum(e.target.value);
+    setLegRowsNum(Number(e.target.value));
   }
 
   const onHeelflapStsNumChange = (e) => {
-    setHeelflapStsNum(e.target.value);
+    setHeelflapStsNum(Number(e.target.value));
   }
 
   const onHeelflapRowsNumChange = (e) => {
-    setHeelflapRowsNum(e.target.value);
+    setHeelflapRowsNum(Number(e.target.value));
+  }
+
+  const onFootRowsNumChange = (e) => {
+    setFootRowsNum(Number(e.target.value));
+  }
+  
+  // heel turn part
+  let restedHeelturnNum = (heelflapStsNum / 2) - 3;
+  let heelturnStsNum =(
+    heelflapStsNum
+    + (heelflapStsNum - restedHeelturnNum)
+    + (4 + 2)
+    + ((5 + 2) * (((restedHeelturnNum - 2) * 2) + 1))
+    );
+
+  // gusset part
+  let gussetPickupStsNum = ((heelflapStsNum / 2) + 1) * 2;
+  let gussetPlusStsNum = basictStsNum + gussetPickupStsNum;
+  let gussetTotalStsNum = 0;
+  const handleGusset = () => {
+    for (let i = basictStsNum; i <= gussetPlusStsNum; i++) {
+      if (i % 2 === 0 && i <= gussetPlusStsNum) {
+        gussetTotalStsNum += ((i + 2) * 2)
+      }
+    }
+    setGussetPartStsNum(gussetTotalStsNum);
+  }
+
+  // toe part
+  let toeTotalStsNum = 22 + 24 + 26 + 28 + 30;
+  const handleToe = () => {
+    for (let i = 32; i < basictStsNum; i++) {
+      if (i % 2 === 0 && i <basictStsNum) {
+        toeTotalStsNum += ((i) * 2);
+      }
+    }
+    setToePartStsNum(toeTotalStsNum);
   }
 
   const handleCalculate = () => {
     setTotalStsResult(
-      // cuff 단 총 코 갯수
-      (basictStsNum * cuffRowsNum)
-      + 
-      // leg 단 총 코 갯수
-      (basictStsNum * legRowsNum)
-      +
-      // heel flap 단 갯수
-      (heelflapStsNum * heelflapRowsNum)
-      );
+      Math.floor(
+        // cuff 단 총 코 갯수
+        (basictStsNum * cuffRowsNum)
+        + 
+        // leg 단 총 코 갯수
+        (basictStsNum * legRowsNum)
+        +
+        // heel flap 코 갯수
+        (heelflapStsNum * heelflapRowsNum)
+        +
+        // heel turn 코 갯수
+        heelturnStsNum
+        +
+        // gusset sts part 코 갯수
+        (
+          (heelflapStsNum - (((restedHeelturnNum - 2) * 2) + 1))
+          +
+          (basictStsNum / 2)
+          +
+          (((restedHeelturnNum - 2) * 2) + 1)
+          +
+          gussetPartStsNum
+        )
+        +
+        // foot 단 코 갯수
+        (basictStsNum * footRowsNum)
+        +
+        // toe 코 갯수
+        toePartStsNum
+      )
+    )
   }
 
   // Enter key 치면 Submit
@@ -66,42 +126,35 @@ const StitchCalculator = () => {
       handleCalculate();
     }
   }
-  
-  const [yarnLength, setYarnLength] = useState(0);
-  const [yarnLengthYards, setYardLengthYards] = useState(0);
-  const [yarnLengthMeter, setYardLengthMeter] = useState(0);
 
-  const [yarnWeight, setYarnWeight] = useState(0);
-  const [yarnLengthYardsPerGram, setyYarnLengthYardsPerGram] = useState(0);
-  const [yarnLengthMeterPerGram, setyYarnLengthMeterPerGram] = useState(0);
-
-  const onYarnLength = (e) => {
-    setYarnLength(e.target.value);
+  const onKeyTabStart = (e) => {
+    if (e.key === "Tab") {
+      setHeelflapStsNum(
+        Math.floor(basictStsNum / 2)
+      );
+      setHeelflapRowsNum(
+        Math.floor(basictStsNum / 2)
+      );
+    }
   }
 
-  const onYarnWeight = (e) => {
-    setYarnWeight(e.target.value);
+  const onKeyTabGusset = (e) => {
+    if (e.key === "Tab") {
+      handleGusset(basictStsNum);
+    }
   }
-  
-  const handleYarnLengthYards = (e) => {
-    setYardLengthMeter(yarnLength * 0.9144);
-    setYardLengthYards(yarnLength);
-    setyYarnLengthYardsPerGram(yarnLengthYards / yarnWeight);
-    setyYarnLengthMeterPerGram(yarnLengthMeter / yarnWeight);
-  }
-  
-  const handleYarnLengthMeter = (e) => {
-    setYardLengthYards(yarnLength * 1.09361);
-    setYardLengthMeter(yarnLength);
-    setyYarnLengthYardsPerGram(yarnLengthYards / yarnWeight);
-    setyYarnLengthMeterPerGram(yarnLengthMeter / yarnWeight);
+
+  const onKeyTabToe = (e) => {
+    if (e.key === "Tab") {
+      handleToe(basictStsNum);
+    }
   }
   
   return (
     <>
       <div>
         <BasicStitch>STARTING STS NUMBER</BasicStitch>
-        <NumberInput onChange={onBasicStsNumChange} />
+        <NumberInput onChange={onBasicStsNumChange} onKeyDown={onKeyTabStart} />
       </div>
       <div>
         <BasicStitch>CUFF ROWS</BasicStitch>
@@ -114,36 +167,43 @@ const StitchCalculator = () => {
       <div>
         <BasicStitch>HEEL FLAP STS</BasicStitch>
         <NumberInput onChange={onHeelflapStsNumChange} />
+        <div>{heelflapStsNum}</div>
       </div>
       <div>
         <BasicStitch>HEEL FLAP ROWS</BasicStitch>
-        <NumberInput onChange={onHeelflapRowsNumChange} onKeyPress={onKeyPressSts} />
+        <NumberInput onChange={onHeelflapRowsNumChange} onKeyDown={onKeyTabGusset}/>
+        <div>{heelflapRowsNum}</div>
+      </div>
+      <div>
+        <BasicStitch>HEEL TURN</BasicStitch>
+        <div>{heelturnStsNum}</div>
+      </div>
+      <div>
+        <BasicStitch>GUSSET PICK UP STS NUMBER</BasicStitch>
+        <div>{gussetPickupStsNum}</div>
+      </div>
+      <div>
+        <BasicStitch>GUSSET PART NUMBER</BasicStitch>
+        <div>{gussetPartStsNum}</div>
+      </div>
+      <div>
+        <BasicStitch>FOOT ROWS</BasicStitch>
+        <NumberInput onChange={onFootRowsNumChange} onKeyPress={onKeyPressSts} onKeyDown={onKeyTabToe} />
+      </div>
+      <div>
+        <BasicStitch>TOE</BasicStitch>
+        <div>{toePartStsNum}</div>
       </div>
       <div>
         <SubmitButton type="submit" onClick={handleCalculate}>SUBMIT</SubmitButton>
       </div>
       <div>
-        <div>총 코 갯수: {totalStsResult}</div>
+        <div totalstsresult={totalStsResult} >총 코 갯수: {totalStsResult}</div>
       </div>
 
       <hr></hr>
       
-      <div>
-        <BasicStitch>YARN LENGTH</BasicStitch>
-        <NumberInput onChange={onYarnLength} />
-        <SubmitButton type="submit" onClick={handleYarnLengthYards}>yards</SubmitButton>
-        <SubmitButton type="submit" onClick={handleYarnLengthMeter}>meter</SubmitButton>
-      </div>
-      <div>
-        <BasicStitch>YARN WEIGHT</BasicStitch>
-        <NumberInput onChange={onYarnWeight} />
-      </div>
-      <div>
-        <div>실 길이(yards): {yarnLengthYards} yd</div>
-        <div>실 길이(meter): {yarnLengthMeter} m</div>
-        <div>1g 당 실 길이(yards): {yarnLengthYardsPerGram} yd</div>
-        <div>1g 당 실 길이(meter): {yarnLengthMeterPerGram} m</div>
-      </div>
+
     </>
   );
 };

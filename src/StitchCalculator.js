@@ -24,6 +24,7 @@ const StitchCalculator = () => {
   const [heelflapStsNum, setHeelflapStsNum] = useState(0);
   const [heelflapRowsNum, setHeelflapRowsNum] = useState(0);
   const [gussetPartStsNum, setGussetPartStsNum] = useState(0);
+  const [fromGussettoFoot, setFromGussettoFoot] = useState(0);
   const [footRowsNum, setFootRowsNum] = useState(0);
   const [toePartStsNum, setToePartStsNum] = useState(0);
   const [totalStsResult, setTotalStsResult] = useState(0);
@@ -65,17 +66,20 @@ const StitchCalculator = () => {
   let gussetPickupStsNum = ((heelflapStsNum / 2) + 1) * 2;
   let gussetPlusStsNum = basictStsNum + gussetPickupStsNum;
   let gussetTotalStsNum = 0;
+  let fromGussettoFootRowNum = 0;
   const handleGusset = () => {
     for (let i = basictStsNum; i <= gussetPlusStsNum; i++) {
       if (i % 2 === 0 && i <= gussetPlusStsNum) {
         gussetTotalStsNum += ((i + 2) * 2)
+        fromGussettoFootRowNum += 2;
       }
     }
     setGussetPartStsNum(gussetTotalStsNum);
+    setFromGussettoFoot(fromGussettoFootRowNum);
   }
 
   // toe part
-  let toeTotalStsNum = 22 + 24 + 26 + 28 + 30;
+  let toeTotalStsNum = 24 + 28 + 32;
   const handleToe = () => {
     for (let i = 32; i < basictStsNum; i++) {
       if (i % 2 === 0 && i <basictStsNum) {
@@ -185,6 +189,10 @@ const StitchCalculator = () => {
       <div>
         <BasicStitch>GUSSET PART NUMBER</BasicStitch>
         <div>{gussetPartStsNum}</div>
+      </div>
+      <div>
+        <BasicStitch>Gusset부터 시작한 패턴 단 개수</BasicStitch>
+        <div>{fromGussettoFoot}</div>
       </div>
       <div>
         <BasicStitch>FOOT ROWS</BasicStitch>

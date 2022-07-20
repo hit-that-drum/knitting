@@ -26,6 +26,10 @@ const StitchCalculator = () => {
   const [gussetPartStsNum, setGussetPartStsNum] = useState(0);
   const [fromGussettoFoot, setFromGussettoFoot] = useState(0);
   const [footRowsNum, setFootRowsNum] = useState(0);
+
+  const [toeLeftStsNum, setToeLeftStsNum] = useState(0);
+  const [toeDecreaseInaRowNum, setToeDecreaseInaRowNum] = useState(0);
+
   const [toePartStsNum, setToePartStsNum] = useState(0);
   const [totalStsResult, setTotalStsResult] = useState(0);
  
@@ -51,6 +55,14 @@ const StitchCalculator = () => {
 
   const onFootRowsNumChange = (e) => {
     setFootRowsNum(Number(e.target.value));
+  }
+
+  const onToeLeftStsNumChange = (e) => {
+    setToeLeftStsNum(Number(e.target.value));
+  }
+
+  const onToeDecreaseInaRowNum = (e) => {
+    setToeDecreaseInaRowNum(Number(e.target.value));
   }
   
   // heel turn part
@@ -78,16 +90,71 @@ const StitchCalculator = () => {
     setFromGussettoFoot(fromGussettoFootRowNum);
   }
 
-  // toe part
-  let toeTotalStsNum = 24 + 28 + 32;
-  const handleToe = () => {
-    for (let i = 32; i < basictStsNum; i++) {
-      if (i % 2 === 0 && i <basictStsNum) {
-        toeTotalStsNum += ((i) * 2);
-      }
-    }
-    setToePartStsNum(toeTotalStsNum);
-  }
+ // toe part
+ let toeTotalStsNum = 0;
+ let toeLeftStsNumCalculate = 20;
+ let toeDecreaseInaRowNumCalculate = 5;
+
+ const handleToe = () => {
+   // for (let i = 32; i < basictStsNum; i++) {
+   //   if (i % 2 === 0 && i <basictStsNum) {
+   //     toeTotalStsNum += ((i) * 2);
+   //   }
+   // }
+
+   if (toeLeftStsNum === 0 && toeDecreaseInaRowNum === 0) {
+     for (let i = 40; i < basictStsNum; i++) {
+       if (i % 4 === 0 && i < basictStsNum) {
+         toeTotalStsNum = 24 + 28 + 32 + 36 + 40;
+         console.log("00 toeTotalStsNum 1", toeTotalStsNum);
+         toeTotalStsNum += (i * 2);
+         console.log("00 toeTotalStsNum 2", toeTotalStsNum);
+       }
+     }
+   } 
+   else if (toeLeftStsNum !== 0 && toeDecreaseInaRowNum === 0) {
+     for(let i = toeLeftStsNumCalculate + 24; i < basictStsNum; i++) {
+       if (i % 4 === 0 && i < basictStsNum) {
+         toeTotalStsNum 
+         = (((toeLeftStsNumCalculate + 4) + (toeLeftStsNumCalculate + 20)) * 2) 
+           - (toeLeftStsNumCalculate + 8);
+         console.log("10 toeTotalStsNum 1", toeTotalStsNum);
+         toeTotalStsNum += (i * 2);
+         console.log("10 toeTotalStsNum 2", toeTotalStsNum);
+       }
+     }
+   }
+   else if (toeLeftStsNum === 0 && toeDecreaseInaRowNum !== 0) {
+     for (let i = (toeLeftStsNumCalculate + 4) + (4 * toeDecreaseInaRowNum); i < basictStsNum; i++) {
+       for (let j = (toeLeftStsNumCalculate + 4); j < (toeLeftStsNumCalculate + 4) + (4 * toeDecreaseInaRowNum); j++) {
+         if (j % 4 === 0) {
+           toeTotalStsNum += j;
+         }
+       }
+       console.log("01 toeTotalStsNum 1", toeTotalStsNum);
+       if (i % 4 === 0 && i < basictStsNum) {
+         toeTotalStsNum += (i * 2);
+       }
+       console.log("01 toeTotalStsNum 2", toeTotalStsNum); 
+     }
+   }
+   else if (toeLeftStsNum !== 0 && toeDecreaseInaRowNum !== 0) {
+     for (let i = (toeLeftStsNumCalculate + 4) + (4 * toeDecreaseInaRowNum); i < basictStsNum; i++) {
+       for (let j = (toeLeftStsNum + 4); j < (toeLeftStsNumCalculate + 4) + (4 * toeDecreaseInaRowNum); j++) {
+         if (j % 4 === 0) {
+           toeTotalStsNum += (i * 4);
+         }
+       }
+     console.log("11 toeTotalStsNum 1", toeTotalStsNum);
+     if (i % 4 === 0 && i < basictStsNum) {
+       toeTotalStsNum += (i * 2);
+     }
+     console.log("11 toeTotalStsNum 2", toeTotalStsNum);
+     }
+   }
+ };
+   
+
 
   const handleCalculate = () => {
     setTotalStsResult(
@@ -200,8 +267,13 @@ const StitchCalculator = () => {
       </div>
       <div>
         <BasicStitch>TOE</BasicStitch>
+        <BasicStitch>TOE 남길 코 개수</BasicStitch>
+        <NumberInput onChange={onToeLeftStsNumChange} />
         <div>{toePartStsNum}</div>
+        <BasicStitch>연속으로 줄일 단의 개수</BasicStitch>
+        <NumberInput onChange={onToeDecreaseInaRowNum} />
       </div>
+
       <div>
         <SubmitButton type="submit" onClick={handleCalculate}>SUBMIT</SubmitButton>
       </div>

@@ -28,7 +28,7 @@ const StitchCalculator = () => {
   const [footRowsNum, setFootRowsNum] = useState(0);
   const [toePartStsNum, setToePartStsNum] = useState(0);
   const [totalStsResult, setTotalStsResult] = useState(0);
-
+ 
   const onBasicStsNumChange = (e) => {
     setBasicStsNum(Number(e.target.value));
   }

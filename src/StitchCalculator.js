@@ -26,6 +26,10 @@ const StitchCalculator = () => {
   const [gussetPartStsNum, setGussetPartStsNum] = useState(0);
   const [fromGussettoFoot, setFromGussettoFoot] = useState(0);
   const [footRowsNum, setFootRowsNum] = useState(0);
+
+  const [toeLeftStsNum, setToeLeftStsNum] = useState(0);
+  const [toeDecreaseInaRowNum, setToeDecreaseInaRowNum] = useState(0);
+
   const [toePartStsNum, setToePartStsNum] = useState(0);
   const [totalStsResult, setTotalStsResult] = useState(0);
  
@@ -51,6 +55,14 @@ const StitchCalculator = () => {
 
   const onFootRowsNumChange = (e) => {
     setFootRowsNum(Number(e.target.value));
+  }
+
+  const onToeLeftStsNumChange = (e) => {
+    setToeLeftStsNum(Number(e.target.value));
+  }
+
+  const onToeDecreaseInaRowNum = (e) => {
+    setToeDecreaseInaRowNum(Number(e.target.value));
   }
   
   // heel turn part
@@ -78,16 +90,59 @@ const StitchCalculator = () => {
     setFromGussettoFoot(fromGussettoFootRowNum);
   }
 
-  // toe part
-  let toeTotalStsNum = 24 + 28 + 32;
-  const handleToe = () => {
-    for (let i = 32; i < basictStsNum; i++) {
-      if (i % 2 === 0 && i <basictStsNum) {
-        toeTotalStsNum += ((i) * 2);
+ // toe part
+ let toeTotalStsNum = 0;
+ let toeLeftStsNumCalculate = 20;
+
+ const handleToe = () => {
+  // 남길코 개수 && 연속줄임단 개수 모두 0
+   if (toeLeftStsNum === 0 && toeDecreaseInaRowNum === 0) {
+     toeTotalStsNum = 24 + 28 + 32 + 36 + 40;
+     for (let i = 44; i < basictStsNum; i++) {
+       if (i % 4 === 0 && i < basictStsNum) {
+         toeTotalStsNum += (i * 2);
+       }
+     }
+   }
+  // 남길코 개수는 사용자지정 && 연속줄임단 개수 0
+   else if (toeLeftStsNum !== 0 && toeDecreaseInaRowNum === 0) {
+     toeTotalStsNum 
+     = (toeLeftStsNum * 5) + (4 + 8 + 12 + 16 + 20);
+     for(let i = toeLeftStsNum + 24; i < basictStsNum; i++) {
+       if (i % 4 === 0 && i < basictStsNum) {
+         toeTotalStsNum += (i * 2);
+       }
+     }
+   }
+  // 남길코 개수 0 && 연속줄임단 개수 사용자지정
+   else if (toeLeftStsNum === 0 && toeDecreaseInaRowNum !== 0) {
+     for (let i = (toeLeftStsNumCalculate + 4); i < (toeLeftStsNumCalculate + 4) + (4 * toeDecreaseInaRowNum); i++) {
+       if (i % 4 === 0) {
+         toeTotalStsNum += i;
+       }
+     }
+     for (let j = (toeLeftStsNumCalculate + 4) + (4 * toeDecreaseInaRowNum); j < basictStsNum; j++) {
+       if (j % 4 === 0 && j < basictStsNum) {
+         toeTotalStsNum += (j * 2);
+       }
+     }
+   }
+    // 남길코 개수 && 연속줄임단 개수 모두 사용자지정
+   else if (toeLeftStsNum !== 0 && toeDecreaseInaRowNum !== 0) {
+     for (let i = (toeLeftStsNum + 4); i < (toeLeftStsNum + 4) + (4 * toeDecreaseInaRowNum); i++) {
+      if (i % 4 === 0) {
+        toeTotalStsNum += i;
       }
-    }
-    setToePartStsNum(toeTotalStsNum);
-  }
+     }
+     for (let j = (toeLeftStsNum + 4) + (4 * toeDecreaseInaRowNum); j < basictStsNum; j++) {
+       if (j % 4 === 0 && j < basictStsNum) {
+          toeTotalStsNum += (j * 2);
+        }
+     }
+   }
+
+   setToePartStsNum(toeTotalStsNum);
+ };
 
   const handleCalculate = () => {
     setTotalStsResult(
@@ -196,12 +251,23 @@ const StitchCalculator = () => {
       </div>
       <div>
         <BasicStitch>FOOT ROWS</BasicStitch>
-        <NumberInput onChange={onFootRowsNumChange} onKeyPress={onKeyPressSts} onKeyDown={onKeyTabToe} />
+        <NumberInput onChange={onFootRowsNumChange} />
       </div>
       <div>
-        <BasicStitch>TOE</BasicStitch>
-        <div>{toePartStsNum}</div>
+        <div>
+          <BasicStitch>TOE 남길 코 개수</BasicStitch>
+          <NumberInput onChange={onToeLeftStsNumChange} />
+        </div>
+        <div>
+          <BasicStitch>연속으로 줄일 단의 개수</BasicStitch>
+          <NumberInput onChange={onToeDecreaseInaRowNum} onKeyPress={onKeyPressSts} onKeyDown={onKeyTabToe} />
+        </div>
+        <div>
+          <BasicStitch>TOE TOTAL STS</BasicStitch>
+          <div>{toePartStsNum}</div>
+        </div>
       </div>
+
       <div>
         <SubmitButton type="submit" onClick={handleCalculate}>SUBMIT</SubmitButton>
       </div>

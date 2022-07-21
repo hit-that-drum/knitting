@@ -1,20 +1,70 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const WholeWrapper = styled.div`
+  font-family: 'Nanum Gothic', sans-serif;
+  /* background-color: palegoldenrod; */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+const FirstWrapper = styled.div`
+  /* background-color: palevioletred; */
+  text-align: center;
+  width: 60vw;
+  height: 80vh;
+  border: 5px solid black;
+`
+const FirstBox = styled.div`
+  background-color: palegoldenrod;
+  width: 20vw;
+  height: 10vh;
+`
+const SecondBox = styled.div`
+  background-color: palevioletred;  
+  width: 20vw;
+  height: 10vh;
+`
+const ThirdBox = styled.div`
+  background-color: palegreen;
+  width: 20vw;
+  height: 10vh;
+`
+
 const BasicStitch = styled.span`
   font-weight: 700;
-  font-size: 35px;
+  font-size: 3.5vh;
+  justify-content: flex-start;
+
 `
 const NumberInput = styled.input.attrs({
   type: "number",
   min: 0,
   max: 500,
   defaultValue: 0
-})``
-
+})`
+width: 5vh;
+height: 2vh;
+margin: 0.5vh;
+padding: 0.5vh;
+border-radius: 1vh;
+text-align: center;
+font-size: 2.5vh;
+&::-webkit-inner-spin-button,
+&::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+`
 const SubmitButton = styled.button`
   width: 85px;
   height: 35px;
+  border-radius: 1vh;
 `
 
 const StitchCalculator = () => {
@@ -210,8 +260,10 @@ const StitchCalculator = () => {
   }
   
   return (
-    <>
-      <div>
+
+    <WholeWrapper>
+      <FirstWrapper>
+      {/* <div>
         <BasicStitch>STARTING STS NUMBER</BasicStitch>
         <NumberInput onChange={onBasicStsNumChange} onKeyDown={onKeyTabStart} />
       </div>
@@ -273,12 +325,14 @@ const StitchCalculator = () => {
       </div>
       <div>
         <div totalstsresult={totalStsResult} >총 코 갯수: {totalStsResult}</div>
-      </div>
+      </div> */}
 
-      <hr></hr>
-      
+          <FirstBox>Ready to Love</FirstBox>
+          <SecondBox>Rock with You</SecondBox>
+          <ThirdBox>HOT</ThirdBox>
+        </FirstWrapper>
+      </WholeWrapper>
 
-    </>
   );
 };
 

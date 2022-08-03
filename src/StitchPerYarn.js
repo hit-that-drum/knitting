@@ -5,7 +5,7 @@ const StitchPerYarn = () => {
   return (
     <div>
       <hr></hr>
-      yap
+      Stitch Per Yarn
       <div></div>
     </div>
   );

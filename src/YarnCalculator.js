@@ -52,7 +52,7 @@ const YarnCalculator = () => {
 
   return (
     <>
-            <div>
+      <div>
         <BasicStitch>YARN LENGTH</BasicStitch>
         <NumberInput onChange={onYarnLength} />
         <SubmitButton type="submit" onClick={handleYarnLengthYards}>yards</SubmitButton>

@@ -1,14 +1,10 @@
 import './App.css';
-import StitchCalculator from './StitchCalculator';
-import YarnCalculator from './YarnCalculator';
-import StitchPerYarn from './StitchPerYarn';
+import Tab from './Tab';
 
 function App() {
   return (
     <>
-      <StitchCalculator />
-      <YarnCalculator />
-      <StitchPerYarn />
+      <Tab />
     </>
   );
 }

@@ -1,57 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import StitchPerYarn from './StitchPerYarn';
-import YarnCalculator from './YarnCalculator';
 
-const WholeWrapper = styled.div`
-  font-family: 'Nanum Gothic', sans-serif;
-  /* background-color: palegoldenrod; */
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const FirstWrapper = styled.div`
-  /* background-color: palevioletred; */
-  /* text-align: center; */
-  width: 70vw;
-  height: 90vh;
-  border: 5px solid black;
-  display: flex;
-  justify-content: center;
-`
-const FirstBox = styled.div`
-  background-color: palegoldenrod;
-  width: 25vw;
-  height: 100%;
+const Wrapper = styled.div`
+  display: block;
 `
 const FirstBoxInner = styled.div`
-  display: flex;
+  width: 60vw;
+  height: 80vh;
+  background-color: palegoldenrod;
+  /* display: flex;
   flex-direction: column;
+  justify-content: space-evenly; */
+
   margin-top: 1vh;
   padding: 0 0.5vh 0 0.5vh;
 `
-const SecondBox = styled.div`
-  background-color: paleturquoise;
-  width: 23vw;
-  height: 100%;
-`
-const SecondBoxInner = styled.div`
-  margin: 100% 0 0 0;
-  background-color: blue;
-`
-const ThirdBox = styled.div`
-  background-color: palevioletred;
-  width: 22vw;
-  height: 100%;
-`
-const ThirdBoxInner = styled.div`
-  margin: 100% 0 0 0;
-  background-color: pink;
-`
 const EachBox = styled.div`
-  justify-content: space-between;
   margin: 10px 0 0 1vh;
 `
 const BasicStitch = styled.span`
@@ -280,88 +244,75 @@ const StitchCalculator = () => {
   }
   
   return (
-    <WholeWrapper>
-      <FirstWrapper>
-        <FirstBox>
-          <FirstBoxInner>
-            <EachBox>
-              <BasicStitch>STARTING STS NUMBER</BasicStitch>
-              <NumberInput onChange={onBasicStsNumChange} onKeyDown={onKeyTabStart} />
-            </EachBox>
-            <EachBox>
-              <BasicStitch>CUFF ROWS</BasicStitch>
-              <NumberInput onChange={onCuffRowsNumChange} />
-            </EachBox>
-            <EachBox>
-              <BasicStitch>LEG ROWS</BasicStitch>
-              <NumberInput onChange={onLegRowsNumChange} />
-            </EachBox>
-            <EachBox>
-              <BasicStitch>HEEL FLAP STS</BasicStitch>
-              <NumberInput onChange={onHeelflapStsNumChange} />
-              <div>{heelflapStsNum}</div>
-            </EachBox>
-            <EachBox>
-              <BasicStitch>HEEL FLAP ROWS</BasicStitch>
-              <NumberInput onChange={onHeelflapRowsNumChange} onKeyDown={onKeyTabGusset}/>
-              <div>{heelflapRowsNum}</div>
-            </EachBox>
-            <EachBox>
-              <BasicStitch>HEEL TURN</BasicStitch>
-              <div>{heelturnStsNum}</div>
-            </EachBox>
-            <EachBox>
-              <BasicStitch>GUSSET PICK UP STS NUMBER</BasicStitch>
-              <div>{gussetPickupStsNum}</div>
-            </EachBox>
-            <EachBox>
-              <BasicStitch>GUSSET PART NUMBER</BasicStitch>
-              <div>{gussetPartStsNum}</div>
-            </EachBox>
-            <EachBox>
-              <BasicStitch>Gusset부터 시작한 패턴 단 개수</BasicStitch>
-              <div>{fromGussettoFoot}</div>
-            </EachBox>
-            <EachBox>
-              <BasicStitch>FOOT ROWS</BasicStitch>
-              <NumberInput onChange={onFootRowsNumChange} />
-            </EachBox>
-            <div>
-              <EachBox>
-                <BasicStitch>TOE 남길 코 개수</BasicStitch>
-                <NumberInput onChange={onToeLeftStsNumChange} />
-              </EachBox>
-              <EachBox>
-                <BasicStitch>연속으로 줄일 단의 개수</BasicStitch>
-                <NumberInput onChange={onToeDecreaseInaRowNum} onKeyPress={onKeyPressSts} onKeyDown={onKeyTabToe} />
-              </EachBox>
-              <EachBox>
-                <BasicStitch>TOE TOTAL STS</BasicStitch>
-                <span>{toePartStsNum}</span>
-              </EachBox>
-            </div>
+    <>
+    <Wrapper>
+      <FirstBoxInner>
+        <EachBox>
+          <BasicStitch>STARTING STS NUMBER</BasicStitch>
+          <NumberInput onChange={onBasicStsNumChange} onKeyDown={onKeyTabStart} />
+        </EachBox>
+        <EachBox>
+          <BasicStitch>CUFF ROWS</BasicStitch>
+          <NumberInput onChange={onCuffRowsNumChange} />
+        </EachBox>
+        <EachBox>
+          <BasicStitch>LEG ROWS</BasicStitch>
+          <NumberInput onChange={onLegRowsNumChange} />
+        </EachBox>
+        <EachBox>
+          <BasicStitch>HEEL FLAP STS</BasicStitch>
+          <NumberInput onChange={onHeelflapStsNumChange} />
+          <div>{heelflapStsNum}</div>
+        </EachBox>
+        <EachBox>
+          <BasicStitch>HEEL FLAP ROWS</BasicStitch>
+          <NumberInput onChange={onHeelflapRowsNumChange} onKeyDown={onKeyTabGusset}/>
+          <div>{heelflapRowsNum}</div>
+        </EachBox>
+        <EachBox>
+          <BasicStitch>HEEL TURN</BasicStitch>
+          <div>{heelturnStsNum}</div>
+        </EachBox>
+        <EachBox>
+          <BasicStitch>GUSSET PICK UP STS NUMBER</BasicStitch>
+          <div>{gussetPickupStsNum}</div>
+        </EachBox>
+        <EachBox>
+          <BasicStitch>GUSSET PART NUMBER</BasicStitch>
+          <div>{gussetPartStsNum}</div>
+        </EachBox>
+        <EachBox>
+          <BasicStitch>Gusset부터 시작한 패턴 단 개수</BasicStitch>
+          <div>{fromGussettoFoot}</div>
+        </EachBox>
+        <EachBox>
+          <BasicStitch>FOOT ROWS</BasicStitch>
+          <NumberInput onChange={onFootRowsNumChange} />
+        </EachBox>
+        <div>
+          <EachBox>
+            <BasicStitch>TOE 남길 코 개수</BasicStitch>
+            <NumberInput onChange={onToeLeftStsNumChange} />
+          </EachBox>
+          <EachBox>
+            <BasicStitch>연속으로 줄일 단의 개수</BasicStitch>
+            <NumberInput onChange={onToeDecreaseInaRowNum} onKeyPress={onKeyPressSts} onKeyDown={onKeyTabToe} />
+          </EachBox>
+          <EachBox>
+            <BasicStitch>TOE TOTAL STS</BasicStitch>
+            <span>{toePartStsNum}</span>
+          </EachBox>
+        </div>
 
-            <div>
-              <SubmitButton type="submit" onClick={handleCalculate}>SUBMIT</SubmitButton>
-            </div>
-            <div>
-              <div totalstsresult={totalStsResult} >총 코 갯수: {totalStsResult}</div>
-            </div>
-          </FirstBoxInner>
-        </FirstBox>
-        <SecondBox>
-          <SecondBoxInner>
-            <YarnCalculator />
-          </SecondBoxInner>
-        </SecondBox>
-        <ThirdBox>
-          <ThirdBoxInner>
-            <StitchPerYarn />
-          </ThirdBoxInner>
-        </ThirdBox>
-      </FirstWrapper>
-    </WholeWrapper>
-
+        <div>
+          <SubmitButton type="submit" onClick={handleCalculate}>SUBMIT</SubmitButton>
+        </div>
+        <div>
+          <div totalstsresult={totalStsResult} >총 코 갯수: {totalStsResult}</div>
+        </div>
+      </FirstBoxInner>
+      </Wrapper>
+    </>
   );
 };
 

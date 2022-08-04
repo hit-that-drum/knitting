@@ -50,7 +50,7 @@ const State = styled.div`
 `;
 
 const Tab = () => {
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(1);
 
   const menuArr = [
     { name: "StitchCalculator", content: <StitchCalculator />},

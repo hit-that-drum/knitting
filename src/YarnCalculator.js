@@ -20,13 +20,13 @@ const SubmitButton = styled.button`
 `
 
 const YarnCalculator = () => {
-  const [yarnLength, setYarnLength] = useState(0);
-  const [yarnLengthYards, setYardLengthYards] = useState(0);
-  const [yarnLengthMeter, setYardLengthMeter] = useState(0);
+  const [yarnLength, setYarnLength] = useState(null);
+  const [yarnLengthYards, setYardLengthYards] = useState(null);
+  const [yarnLengthMeter, setYardLengthMeter] = useState(null);
 
-  const [yarnWeight, setYarnWeight] = useState(0);
-  const [yarnLengthYardsPerGram, setyYarnLengthYardsPerGram] = useState(0);
-  const [yarnLengthMeterPerGram, setyYarnLengthMeterPerGram] = useState(0);
+  const [yarnWeight, setYarnWeight] = useState(null);
+  const [yarnLengthYardsPerGram, setyYarnLengthYardsPerGram] = useState(null);
+  const [yarnLengthMeterPerGram, setyYarnLengthMeterPerGram] = useState(null);
 
   const onYarnLength = (e) => {
     setYarnLength(e.target.value);
@@ -37,31 +37,55 @@ const YarnCalculator = () => {
   }
   
   const handleYarnLengthYards = (e) => {
-    setYardLengthMeter(yarnLength * 0.9144);
-    setYardLengthYards(yarnLength);
-    setyYarnLengthYardsPerGram(yarnLengthYards / yarnWeight);
-    setyYarnLengthMeterPerGram(yarnLengthMeter / yarnWeight);
+    if (yarnWeight === null && yarnLength !== null) {
+      alert("실 무게를 입력해주세요!");
+      return null;
+    } 
+    
+    if (yarnWeight !== null && yarnLength === null) {
+      alert("실 길이를 입력해주세요!")
+      return null;
+    } else {
+      setYardLengthMeter(yarnLength * 0.9144);
+      setYardLengthYards(yarnLength);
+
+      setyYarnLengthYardsPerGram(yarnLengthYards / yarnWeight);
+      setyYarnLengthMeterPerGram(yarnLengthMeter / yarnWeight);
+    }
   }
   
   const handleYarnLengthMeter = (e) => {
-    setYardLengthYards(yarnLength * 1.09361);
-    setYardLengthMeter(yarnLength);
-    setyYarnLengthYardsPerGram(yarnLengthYards / yarnWeight);
-    setyYarnLengthMeterPerGram(yarnLengthMeter / yarnWeight);
+    if (yarnWeight === null && yarnLength !== null) {
+      alert("실 무게를 입력해주세요!")
+      return null;
+    }  
+    
+    if (yarnWeight !== null && yarnLength === null) {
+      alert("실 길이를 입력해주세요!")
+      return null;
+    } else {
+      setYardLengthYards(yarnLength * 1.09361);
+      setYardLengthMeter(yarnLength);
+      
+      setyYarnLengthYardsPerGram(yarnLengthYards / yarnWeight);
+      setyYarnLengthMeterPerGram(yarnLengthMeter / yarnWeight);
+    }
   }
 
   return (
     <>
       <div>
-        <BasicStitch>YARN LENGTH</BasicStitch>
-        <NumberInput onChange={onYarnLength} />
-        <SubmitButton type="submit" onClick={handleYarnLengthYards}>yards</SubmitButton>
-        <SubmitButton type="submit" onClick={handleYarnLengthMeter}>meter</SubmitButton>
-      </div>
-      <div>
         <BasicStitch>YARN WEIGHT</BasicStitch>
         <NumberInput onChange={onYarnWeight} />
       </div>
+      <div>
+        <BasicStitch>YARN LENGTH</BasicStitch>
+        <NumberInput onChange={onYarnLength} />
+      </div>
+      <div>
+          <SubmitButton type="submit" onClick={handleYarnLengthYards}>yards</SubmitButton>
+          <SubmitButton type="submit" onClick={handleYarnLengthMeter}>meter</SubmitButton>
+        </div>
       <div>
         <div>실 길이(yards): {yarnLengthYards} yd</div>
         <div>실 길이(meter): {yarnLengthMeter} m</div>
